@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">深圳采集器</string>
+    <string name="dev_id">设备ID号:</string>
+    <string name="server_ip">服务器地址:</string>
+    <string name="ip_id">设备IP号:</string>
+    <string name="dev_id_hint">默认为原机ID</string>
+    <string name="server_ip_hint">请设置服务器地址</string>
+</resources>
