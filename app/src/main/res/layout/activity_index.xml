@@ -51,13 +51,13 @@
             android:src="@drawable/ic_lockup" />
 
         <ImageView
-            android:id="@+id/iv_person_add"
+            android:id="@+id/iv_wifi"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@id/iv_lock"
-            android:src="@drawable/person_add" />
+            android:src="@drawable/non_wifi" />
 
         <TextView
             android:id="@+id/tv_temp"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:textColor="@color/primary_light"
-            android:layout_toLeftOf="@id/iv_person_add"
+            android:layout_toLeftOf="@id/iv_wifi"
             android:layout_marginRight="5dp"
             android:textSize="25sp" />
 
