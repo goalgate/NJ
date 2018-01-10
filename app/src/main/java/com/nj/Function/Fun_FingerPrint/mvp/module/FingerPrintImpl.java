@@ -304,6 +304,7 @@ public class FingerPrintImpl implements IFingerPrint {
     @Override
     public void onIdentify(IFPListener listener) {
 
+
         if (!m_usbComm.IsInit())
             return;
         m_usbComm.Run_SLEDControl(1);

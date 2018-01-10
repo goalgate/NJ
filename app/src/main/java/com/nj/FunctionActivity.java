@@ -12,8 +12,17 @@ import com.nj.Function.Func_Camera.mvp.presenter.PhotoPresenter;
 import com.nj.Function.Func_Camera.mvp.view.IPhotoView;
 import com.nj.Function.Func_IDCard.mvp.presenter.IDCardPresenter;
 import com.nj.Function.Func_IDCard.mvp.view.IIDCardView;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.components.RxActivity;
 import com.ys.myapi.MyManager;
+
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -27,16 +36,12 @@ public abstract class FunctionActivity extends RxActivity implements IPhotoView,
 
     public PhotoPresenter pp = PhotoPresenter.getInstance();
 
-    private MyManager manager;
-
     public SurfaceView surfaceView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BarUtils.hideStatusBar(this);
-        manager = MyManager.getInstance(this);
-        manager.getApiVersion();
-        manager.execSuCmd ("reboot");
+        pp.initCamera();
         idp.idCardOpen();
         fpp.fpInit();
         fpp.fpOpen();
@@ -63,7 +68,14 @@ public abstract class FunctionActivity extends RxActivity implements IPhotoView,
         pp.PhotoPresenterSetView(this);
         pp.setDisplay(surfaceView.getHolder());
         fpp.FingerPrintPresenterSetView(this);
-/*        fpp.fpIdentify();*/
+        Observable.timer(8, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
+                .compose(this.<Long>bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(@NonNull Long aLong) throws Exception {
+                        fpp.fpIdentify();
+                    }
+                });
         idp.IDCardPresenterSetView(this);
         idp.readCard();
     }

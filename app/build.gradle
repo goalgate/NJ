@@ -48,10 +48,13 @@ dependencies {
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     compile "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     compile "com.trello.rxlifecycle2:rxlifecycle:$retrofitVersion"
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     compile 'com.bigkoo:alertview:1.0.3'
     compile 'cn.finalteam:okhttpfinal:2.0.7'
     compile 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
     compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.0'
     compile files('libs/BASE64.jar')
     compile files('libs/rk3128api.jar')
+
 }

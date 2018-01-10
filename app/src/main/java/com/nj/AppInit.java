@@ -7,11 +7,17 @@ import android.os.Environment;
 
 import com.alibaba.fastjson.serializer.FloatArraySerializer;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.log.Lg;
+import com.nj.Function.Fun_FingerPrint.mvp.presenter.FingerPrintPresenter;
 import com.nj.Function.Func_Camera.mvp.presenter.PhotoPresenter;
+import com.nj.Tools.DESX;
 import com.squareup.leakcanary.LeakCanary;
 import com.ys.myapi.MyManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,6 +33,12 @@ import java.io.OutputStream;
 public class AppInit extends Application {
     protected static AppInit instance;
 
+    protected static MyManager manager;
+
+    public static MyManager getMyManager() {
+        return manager;
+    }
+
     public static AppInit getInstance() {
         return instance;
     }
@@ -36,8 +48,6 @@ public class AppInit extends Application {
     }
 
     private static final String PREFS_NAME = "config";
-
-    PhotoPresenter pp = PhotoPresenter.getInstance();
 
     @Override
     public void onCreate() {
@@ -52,18 +62,26 @@ public class AppInit extends Application {
 
         LeakCanary.install(this);
 
-
         instance = this;
+
+        manager = MyManager.getInstance(this);
 
         Utils.init(getContext());
 
-        pp.initCamera();
 
         SPUtils SP_Config = SPUtils.getInstance(PREFS_NAME);
 
         if (SP_Config.getBoolean("firstStart", true)) {
+            JSONObject jsonKey = new JSONObject();
+            try {
+                jsonKey.put("daid", "20180106");
+                jsonKey.put("check", DESX.encrypt("20180106"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             copyFilesToSdCard();
             SP_Config.put("firstStart", false);
+            SP_Config.put("key",DESX.encrypt(jsonKey.toString()));
         }
     }
 
