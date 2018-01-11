@@ -43,8 +43,7 @@ public abstract class FunctionActivity extends RxActivity implements IPhotoView,
         BarUtils.hideStatusBar(this);
         pp.initCamera();
         idp.idCardOpen();
-        fpp.fpInit();
-        fpp.fpOpen();
+
     }
 
     @Override
@@ -68,7 +67,7 @@ public abstract class FunctionActivity extends RxActivity implements IPhotoView,
         pp.PhotoPresenterSetView(this);
         pp.setDisplay(surfaceView.getHolder());
         fpp.FingerPrintPresenterSetView(this);
-        Observable.timer(8, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
+        Observable.timer(3, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
                 .compose(this.<Long>bindUntilEvent(ActivityEvent.PAUSE))
                 .subscribe(new Consumer<Long>() {
                     @Override

@@ -1,6 +1,7 @@
 package com.nj;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -38,6 +39,11 @@ import com.nj.Retrofit.RetrofitGenerator;
 import com.nj.Tools.FileUtils;
 import com.nj.Tools.User;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -69,7 +75,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
 
     FingerPrintPresenter fpp = FingerPrintPresenter.getInstance();
 
-    boolean commitable ;
+    boolean commitable;
 
     User user ;
 
@@ -95,6 +101,10 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
     @BindView(R.id.iv_head_photo)
     ImageView headphoto;
 
+
+/*
+    final ProgressDialog progressDialog = new ProgressDialog(AddPersonActivity.this);
+*/
     @OnClick(R.id.btn_commit)
     void commit() {
         if(commitable){
@@ -106,7 +116,83 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
                 user_sp.put("courType",user.getCourType());
                 courIds.put(user.getCardId(),user.getCourIds());
                 courTypes.put(user.getCardId(),user.getCourType());
+                ToastUtils.showLong("人员插入成功");
                 finish();
+                /*JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("id", user.getCardId());
+                    jsonObject.put("fingerprintPhoto",user.getFingerprintPhoto());
+                    jsonObject.put("fingerprintId",user.getFingerprintId());
+                    jsonObject.put("fingerprintKey",fpp.fpUpTemlate(user.getFingerprintId()));
+                    jsonObject.put("datetime",TimeUtils.getNowString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                RetrofitGenerator.getFingerLogApi().fingerLog(config.getString("key"),jsonObject.toString())
+                        .subscribeOn(Schedulers.io())
+                        .unsubscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<ResponseBody>() {
+                            @Override
+                            public void onSubscribe(@NonNull Disposable d) {
+                                progressDialog.setMessage("数据上传中，请稍候");
+                                progressDialog.show();
+                            }
+
+                            @Override
+                            public void onNext(@NonNull ResponseBody responseBody) {
+                                try{
+                                    Map<String, String> infoMap = new Gson().fromJson(responseBody.string(),
+                                            new TypeToken<HashMap<String, String>>() {
+                                            }.getType());
+                                    if(infoMap.get("result").equals("true")){
+                                        SPUtils user_sp = SPUtils.getInstance(user.getFingerprintId());
+                                        user_sp.put("courIds",user.getCourIds());
+                                        user_sp.put("name",user.getName());
+                                        user_sp.put("cardId",user.getCardId());
+                                        user_sp.put("courType",user.getCourType());
+                                        courIds.put(user.getCardId(),user.getCourIds());
+                                        courTypes.put(user.getCardId(),user.getCourType());
+                                        ToastUtils.showLong("人员插入成功");
+                                        finish();
+                                   }else if(infoMap.get("result").equals("dataErr")){
+                                        new AlertView("验证失败", null, null, new String[]{"确定"}, null, AddPersonActivity.this, AlertView.Style.Alert, new OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(Object o, int position) {
+
+                                            }
+                                        }).show();
+                                   }else if(infoMap.get("result").equals("dbErr")){
+                                        new AlertView("数据库操作有错", null, null, new String[]{"确定"}, null, AddPersonActivity.this, AlertView.Style.Alert, new OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(Object o, int position) {
+
+                                            }
+                                        }).show();
+                                    }
+                                }catch (IOException e){
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                            @Override
+                            public void onError(@NonNull Throwable e) {
+                                progressDialog.dismiss();
+                                new AlertView("无法连接数据库", null, null, new String[]{"确定"}, null, AddPersonActivity.this, AlertView.Style.Alert, new OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(Object o, int position) {
+
+                                    }
+                                }).show();
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                progressDialog.dismiss();
+                            }
+                        });*/
+
             }else{
                 new AlertView("您的操作有误，请重试", null, null, new String[]{"确定"}, null, AddPersonActivity.this, AlertView.Style.Alert, new OnItemClickListener() {
                     @Override
@@ -193,7 +279,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
     public void onsetCardInfo(final CardInfoRk123x cardInfo) {
         person_name.setText("人员姓名："+cardInfo.name());
         person_id.setText("人员身份证："+cardInfo.cardId());
-        RetrofitGenerator.getQueryPersonInfoApi().queryPersonInfo(config.getString("key"),"61062219891108143X")
+        RetrofitGenerator.getQueryPersonInfoApi().queryPersonInfo(config.getString("key"),/*cardInfo.cardId()*/"632700197011090582")
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -216,8 +302,10 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
                                     img_finger.setClickable(false);
                                     fpp.fpEnroll(String.valueOf(fp_id));
                                     user = new User();
-                                    user.setCardId(cardInfo.cardId());
-                                    user.setName(cardInfo.name());
+                                  /*  user.setCardId(cardInfo.cardId());
+                                    user.setName(cardInfo.name());*/
+                                    user.setCardId("632700197011090582");
+                                    user.setName(infoMap.get("name"));
                                     user.setFingerprintId(String.valueOf(fp_id));
                                     user.setCourIds(infoMap.get("courIds"));
                                     user.setCourType(infoMap.get("courType"));
@@ -258,6 +346,43 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
 
                     }
                 });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGetOpenDoorEvent(OpenDoorEvent event) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("datetime", TimeUtils.getNowString());
+            jsonObject.put("state", "n");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RetrofitGenerator.getOpenDoorRecordApi().openDoorRecord(config.getString("key"),jsonObject.toString())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull ResponseBody responseBody) {
+
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
     }
 
     @Override

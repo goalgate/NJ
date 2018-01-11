@@ -11,5 +11,5 @@ import retrofit2.http.Query;
 
 public interface FingerLogApi {
     @POST("fingerLog.json")
-    Observable<ResponseBody> fingerLog(@Query("key") String key);
+    Observable<ResponseBody> fingerLog(@Query("key") String key,@Query("jsonData") String jsonData);
 }
