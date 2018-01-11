@@ -10,8 +10,8 @@ public class No_one_OperateState extends OperationState {
 
 
     @Override
-    public void onHandle(Operation op) {
-
+    public void onHandle(Operation op,Operation.Callback_Operation callback) {
+        callback.uploadCallback();
     }
 
 }

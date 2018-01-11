@@ -1,69 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/small_wireframe"
-            android:layout_centerInParent="true">
+            android:layout_centerInParent="true"
+            android:background="@drawable/small_wireframe">
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="75dp"
+                android:layout_marginTop="10dp"
                 android:text="设置"
                 android:textColor="@color/black"
-                android:textSize="15sp"
-                android:layout_marginLeft="75dp"
-                android:layout_marginTop="10dp"/>
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/btn_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="45dp"
                 android:background="@drawable/increase_bg"
                 android:text="增加人员"
                 android:textColor="@color/white"
-                android:textSize="24sp"
-                android:layout_marginTop="45dp"
-                android:layout_marginLeft="20dp"
-                />
+                android:textSize="24sp" />
 
             <Button
-            android:id="@+id/btn_server"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/delete_bg"
-            android:text="服务器设置"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:layout_marginTop="45dp"
-            android:layout_marginLeft="35dp"
-            android:layout_toRightOf="@id/btn_add"
-            />
+                android:id="@+id/btn_server"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="45dp"
+                android:layout_toRightOf="@id/btn_add"
+                android:background="@drawable/delete_bg"
+                android:text="服务器设置"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/btn_update"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="45dp"
+                android:layout_toRightOf="@id/btn_server"
                 android:background="@drawable/increase_bg"
                 android:text="人员更新"
                 android:textColor="@color/white"
-                android:textSize="24sp"
-                android:layout_marginTop="45dp"
-                android:layout_marginLeft="35dp"
-                android:layout_toRightOf="@id/btn_server"
-                />
-
+                android:textSize="24sp" />
         </RelativeLayout>
 
     </RelativeLayout>

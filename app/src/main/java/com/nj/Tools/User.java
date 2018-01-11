@@ -7,16 +7,21 @@ package com.nj.Tools;
  */
 
 public class User {
-    private String id;
+    private String courIds;
+    private String cardId;
     private String name;
     private String photo;
     private String fingerprintPhoto;
     private String fingerprintId;
     private String fingerprintKey;
-    private String type;
+    private String courType;
 
-    public String getId() {
-        return id;
+    public String getCourIds() {
+        return courIds;
+    }
+
+    public String getCardId() {
+        return cardId;
     }
 
     public String getName() {
@@ -39,12 +44,16 @@ public class User {
         return fingerprintKey;
     }
 
-    public String getType() {
-        return type;
+    public String getCourType() {
+        return courType;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCourIds(String courIds) {
+        this.courIds = courIds;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
     }
 
     public void setName(String name) {
@@ -67,7 +76,7 @@ public class User {
         this.fingerprintKey = fingerprintKey;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCourType(String courType) {
+        this.courType = courType;
     }
 }

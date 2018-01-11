@@ -37,6 +37,21 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
+            <RelativeLayout
+                android:layout_width="300dp"
+                android:layout_height="180dp">
+
+
+
+                <ImageView
+                    android:id="@+id/iv_head_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/xj_bg"/>
+
+
+            </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="200dp"
                 android:layout_height="180dp"
@@ -46,44 +61,59 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="120dp">
-
                     <ImageView
                         android:id="@+id/iv_finger"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/zw_icon"
                         android:layout_centerInParent="true"/>
-
-                    <ImageView
-                        android:id="@+id/iv_finger_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/xj_bg"
-                        android:layout_alignParentTop="true"
-                       />
-
-
-
-
                 </RelativeLayout>
 
                 <EditText
                     android:id="@+id/et_finger"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/iv_finger_view"
+                    android:layout_below="@id/iv_finger"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/zwh_bg"
                     android:enabled="false"
-                    android:text="点击指纹图片登记指纹"
+                    android:text="请刷身份证以获得指纹编号"
                     android:textSize="14sp"
-                    android:textColor="#808080"
+                    android:textColor="@color/black"
                     android:paddingLeft="15dp"
                     android:paddingTop="10dp"
-                    android:paddingBottom="10dp"/>
+                    android:paddingBottom="10dp"
+
+                />
             </LinearLayout>
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_person_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/zwh_bg"
+            android:hint="人员姓名："
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tv_id_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/zwh_bg"
+            android:hint="人员身份证："
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,6 +131,19 @@
                 android:background="@drawable/tj_bg"
                 android:layout_marginRight="5dp"
                 android:text="提  交"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tj_bg"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:text="取  消"
                 android:textColor="@color/white"
                 android:textSize="24sp" />
 

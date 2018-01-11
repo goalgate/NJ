@@ -22,7 +22,11 @@ public class Operation {
         this.state = state;
     }
 
-    public void doNext(){
-        state.onHandle(this);
+    public void doNext(Callback_Operation callback_operation){
+        state.onHandle(this,callback_operation);
+    }
+
+    public interface Callback_Operation{
+        void uploadCallback();
     }
 }

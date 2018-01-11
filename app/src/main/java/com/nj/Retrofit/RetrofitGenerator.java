@@ -153,4 +153,9 @@ public class RetrofitGenerator {
         return testNetApi;
     }
 
+    public static String getUri() {
+        return Uri;
+    }
+
+
 }

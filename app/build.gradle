@@ -56,5 +56,6 @@ dependencies {
     compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.0'
     compile files('libs/BASE64.jar')
     compile files('libs/rk3128api.jar')
+    compile 'cn.yipianfengye.android:zxing-library:2.2'
 
 }

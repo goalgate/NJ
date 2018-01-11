@@ -197,6 +197,7 @@ public class SwitchService extends Service implements ISwitchView {
                                 @Override
                                 public void onNext(Long aLong) {
                                     lock.setLockState(new State_Lockup(sp));
+                                    sp.buzz(SwitchImpl.Hex.H2);
                                     EventBus.getDefault().post(new LockUpEvent());
                                 }
 
@@ -227,8 +228,6 @@ public class SwitchService extends Service implements ISwitchView {
         last_mTemperature = temperature;
         last_mHumidity = humidity;
     }
-
-
 
     private Boolean getDoorState(Class stateClass) {
         if (door.getDoorState().getClass().getName().equals(stateClass.getName())) {
@@ -261,10 +260,8 @@ public class SwitchService extends Service implements ISwitchView {
                             new TypeToken<HashMap<String, String>>() {
                             }.getType());
                     if(infoMap.get("result").equals("true")){
-                        ToastUtils.showLong("yes");
                         EventBus.getDefault().post(new NetworkEvent(true));
                     }else{
-                        ToastUtils.showLong("no");
                         EventBus.getDefault().post(new NetworkEvent(false));
                     }
                 }catch (IOException e){
@@ -274,7 +271,6 @@ public class SwitchService extends Service implements ISwitchView {
 
             @Override
             public void onError(@NonNull Throwable e) {
-                ToastUtils.showLong("no");
                 EventBus.getDefault().post(new NetworkEvent(false));
             }
 
@@ -297,9 +293,24 @@ public class SwitchService extends Service implements ISwitchView {
         }
         RetrofitGenerator.stateRecordApi().stateRecord(config.getString("key"),jsonObject.toString()).
                 subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<ResponseBody>() {
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<ResponseBody>() {
             @Override
-            public void accept(ResponseBody responseBody) throws Exception {
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(@NonNull ResponseBody responseBody) {
+
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
 
             }
         });
@@ -316,9 +327,24 @@ public class SwitchService extends Service implements ISwitchView {
 
         RetrofitGenerator.getAlarmRecordApi().alarmRecord(config.getString("key"), alarmRecordJson.toString())
                     .subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<ResponseBody>() {
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<ResponseBody>() {
             @Override
-            public void accept(ResponseBody responseBody) throws Exception {
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(@NonNull ResponseBody responseBody) {
+
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
 
             }
         });
@@ -335,9 +361,24 @@ public class SwitchService extends Service implements ISwitchView {
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<ResponseBody>() {
+                .subscribe(new Observer<ResponseBody>() {
                     @Override
-                    public void accept(ResponseBody responseBody) throws Exception {
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull ResponseBody responseBody) {
+
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
 
                     }
                 });

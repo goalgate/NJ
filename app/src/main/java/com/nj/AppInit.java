@@ -67,22 +67,6 @@ public class AppInit extends Application {
         manager = MyManager.getInstance(this);
 
         Utils.init(getContext());
-
-
-        SPUtils SP_Config = SPUtils.getInstance(PREFS_NAME);
-
-        if (SP_Config.getBoolean("firstStart", true)) {
-            JSONObject jsonKey = new JSONObject();
-            try {
-                jsonKey.put("daid", "20180106");
-                jsonKey.put("check", DESX.encrypt("20180106"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            copyFilesToSdCard();
-            SP_Config.put("firstStart", false);
-            SP_Config.put("key",DESX.encrypt(jsonKey.toString()));
-        }
     }
 
     String SDCardPath = Environment.getExternalStorageDirectory() +"/";

@@ -7,8 +7,7 @@ package com.nj.State.OperationState;
 
 public abstract class OperationState {
 
-
-    public abstract void onHandle(Operation op);
+    public abstract void onHandle(Operation op,Operation.Callback_Operation callback);
 
 
 }

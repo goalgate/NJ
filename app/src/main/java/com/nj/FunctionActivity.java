@@ -69,7 +69,7 @@ public abstract class FunctionActivity extends RxActivity implements IPhotoView,
         pp.setDisplay(surfaceView.getHolder());
         fpp.FingerPrintPresenterSetView(this);
         Observable.timer(8, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
-                .compose(this.<Long>bindUntilEvent(ActivityEvent.DESTROY))
+                .compose(this.<Long>bindUntilEvent(ActivityEvent.PAUSE))
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(@NonNull Long aLong) throws Exception {
@@ -86,7 +86,6 @@ public abstract class FunctionActivity extends RxActivity implements IPhotoView,
         fpp.fpCancel(true);
         fpp.FingerPrintPresenterSetView(null);
         pp.PhotoPresenterSetView(null);
-        idp.IDCardPresenterSetView(null);
         idp.stopReadCard();
     }
 

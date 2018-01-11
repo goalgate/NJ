@@ -1,93 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:layout_margin="15dip"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-
-        <LinearLayout
-            android:id="@+id/firstLine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/dev_describe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/dev_id"
-                    android:textColor="@color/primary_text"
-                    android:textSize="10pt" />
-
-                <TextView
-                    android:id="@+id/dev_id"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/dev_describe"
-                    android:textColor="@color/primary_text"
-                    android:textSize="10pt" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/ip_describe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/ip_id"
-                    android:textColor="@color/primary_text"
-                    android:textSize="10pt" />
-
-                <TextView
-                    android:id="@+id/dev_ip"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/ip_describe"
-                    android:textColor="@color/primary_text"
-                    android:textSize="10pt" />
-            </LinearLayout>
-        </LinearLayout>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
-        <TextView
-            android:id="@+id/server_describe"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/firstLine"
-            android:layout_marginTop="20dp"
-            android:text="@string/server_ip"
-            android:textColor="@color/primary_text"
-            android:textSize="10pt" />
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_margin="15dip"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
-        <EditText
-            android:id="@+id/server_input"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/server_describe"
-            android:hint="@string/server_ip_hint"
-            android:inputType="text"
-            android:textColor="@color/primary_text"
-            android:textSize="10pt" />
-    </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/firstLine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/dev_describe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/dev_id"
+                        android:textColor="@color/primary_text"
+                        android:textSize="10pt" />
+
+                    <TextView
+                        android:id="@+id/dev_id"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/dev_describe"
+                        android:textColor="@color/primary_text"
+                        android:textSize="10pt" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/ip_describe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/ip_id"
+                        android:textColor="@color/primary_text"
+                        android:textSize="10pt" />
+
+                    <TextView
+                        android:id="@+id/dev_ip"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ip_describe"
+                        android:textColor="@color/primary_text"
+                        android:textSize="10pt" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/server_describe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/firstLine"
+                android:layout_marginTop="20dp"
+                android:text="@string/server_ip"
+                android:textColor="@color/primary_text"
+                android:textSize="10pt" />
+
+            <EditText
+                android:id="@+id/server_input"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/server_describe"
+                android:hint="@string/server_ip_hint"
+                android:inputType="text"
+                android:textColor="@color/primary_text"
+                android:textSize="10pt" />
+        </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/QRimage"
+        android:layout_width="280dp"
+        android:layout_height="160dp"
+
+        android:layout_gravity="center_horizontal|center_vertical"/>
 
 
 </LinearLayout>
