@@ -12,6 +12,7 @@ import com.nj.Retrofit.InterfaceApi.FingerLogApi;
 import com.nj.Retrofit.InterfaceApi.GetTimeApi;
 import com.nj.Retrofit.InterfaceApi.OpenDoorRecordApi;
 import com.nj.Retrofit.InterfaceApi.QueryPersonInfoApi;
+import com.nj.Retrofit.InterfaceApi.SaveVisitApi;
 import com.nj.Retrofit.InterfaceApi.SearchFingerApi;
 import com.nj.Retrofit.InterfaceApi.StateRecordApi;
 import com.nj.Retrofit.InterfaceApi.TestNetApi;
@@ -50,7 +51,7 @@ public class RetrofitGenerator {
     private static SearchFingerApi searchFingerApi;
     private static StateRecordApi stateRecordApi;
     private static TestNetApi testNetApi;
-
+    private static SaveVisitApi saveVisitApi;
     private static <S> S createService(Class<S> serviceClass) {
         SSLParser.SSLParams sslParams = null;
         try {
@@ -151,6 +152,13 @@ public class RetrofitGenerator {
             testNetApi = createService(TestNetApi.class);
         }
         return testNetApi;
+    }
+
+    public static SaveVisitApi getSaveVisitApi() {
+        if (saveVisitApi == null) {
+            saveVisitApi = createService(SaveVisitApi.class);
+        }
+        return saveVisitApi;
     }
 
     public static String getUri() {

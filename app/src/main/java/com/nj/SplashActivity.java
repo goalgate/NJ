@@ -37,14 +37,12 @@ public class SplashActivity extends Activity {
             ActivityUtils.startActivity(getPackageName(),getPackageName()+".StartActivity");
             this.finish();
         }else {
-            final ProgressDialog dialog = new ProgressDialog(SplashActivity.this);
             Observable.timer(3, TimeUnit.SECONDS)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Long>() {
                         @Override
                         public void onSubscribe(@NonNull Disposable d) {
-                            dialog.setMessage("设备正在准备中，请稍候...");
-                            dialog.show();
+
                         }
 
                         @Override
@@ -60,7 +58,7 @@ public class SplashActivity extends Activity {
 
                         @Override
                         public void onComplete() {
-                            dialog.dismiss();
+
 
                         }
                     });
