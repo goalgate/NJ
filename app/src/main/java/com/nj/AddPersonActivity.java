@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -66,10 +67,12 @@ import retrofit2.http.Path;
  * Created by zbsz on 2017/7/31.
  */
 
-public class AddPersonActivity extends Activity implements IFingerPrintView,IIDCardView {
+public class AddPersonActivity extends Activity implements IFingerPrintView, IIDCardView {
     SPUtils config = SPUtils.getInstance("config");
 
     SPUtils courIds = SPUtils.getInstance("courId");
+
+    SPUtils pfpIds = SPUtils.getInstance("pfpIds");
 
     SPUtils courTypes = SPUtils.getInstance("courType");
 
@@ -77,7 +80,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
 
     boolean commitable;
 
-    User user ;
+    User user;
 
     int fp_id = 0;
 
@@ -101,15 +104,11 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
     @BindView(R.id.iv_head_photo)
     ImageView headphoto;
 
-
-/*
-    final ProgressDialog progressDialog = new ProgressDialog(AddPersonActivity.this);
-*/
     @OnClick(R.id.btn_commit)
     void commit() {
-        if(commitable){
-            if(user.getFingerprintId()!= null){
-                SPUtils user_sp = SPUtils.getInstance(user.getFingerprintId());
+        if (    commitable) {
+            if (user.getFingerprintId() != null) {
+              /*  SPUtils user_sp = SPUtils.getInstance(user.getFingerprintId());
                 user_sp.put("courIds",user.getCourIds());
                 user_sp.put("name",user.getName());
                 user_sp.put("cardId",user.getCardId());
@@ -117,18 +116,20 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
                 courIds.put(user.getCardId(),user.getCourIds());
                 courTypes.put(user.getCardId(),user.getCourType());
                 ToastUtils.showLong("人员插入成功");
-                finish();
-                /*JSONObject jsonObject = new JSONObject();
+                finish();*/
+                final ProgressDialog progressDialog = new ProgressDialog(AddPersonActivity.this);
+                JSONObject jsonObject = new JSONObject();
                 try {
+                    jsonObject.put("pfpIds", pfpIds.getString(user.getCardId()));
                     jsonObject.put("id", user.getCardId());
-                    jsonObject.put("fingerprintPhoto",user.getFingerprintPhoto());
-                    jsonObject.put("fingerprintId",user.getFingerprintId());
-                    jsonObject.put("fingerprintKey",fpp.fpUpTemlate(user.getFingerprintId()));
-                    jsonObject.put("datetime",TimeUtils.getNowString());
+                    jsonObject.put("fingerprintPhoto", user.getFingerprintPhoto());
+                    jsonObject.put("fingerprintId", user.getFingerprintId());
+                    jsonObject.put("fingerprintKey", fpp.fpUpTemlate(user.getFingerprintId()));
+                    jsonObject.put("datetime", TimeUtils.getNowString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                RetrofitGenerator.getFingerLogApi().fingerLog(config.getString("key"),jsonObject.toString())
+                RetrofitGenerator.getFingerLogApi().fingerLog(config.getString("key"), jsonObject.toString())
                         .subscribeOn(Schedulers.io())
                         .unsubscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -141,36 +142,37 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
 
                             @Override
                             public void onNext(@NonNull ResponseBody responseBody) {
-                                try{
+                                try {
                                     Map<String, String> infoMap = new Gson().fromJson(responseBody.string(),
                                             new TypeToken<HashMap<String, String>>() {
                                             }.getType());
-                                    if(infoMap.get("result").equals("true")){
+                                    if (infoMap.get("result").equals("true")) {
                                         SPUtils user_sp = SPUtils.getInstance(user.getFingerprintId());
-                                        user_sp.put("courIds",user.getCourIds());
-                                        user_sp.put("name",user.getName());
-                                        user_sp.put("cardId",user.getCardId());
-                                        user_sp.put("courType",user.getCourType());
-                                        courIds.put(user.getCardId(),user.getCourIds());
-                                        courTypes.put(user.getCardId(),user.getCourType());
+                                        user_sp.put("courIds", user.getCourIds());
+                                        user_sp.put("name", user.getName());
+                                        user_sp.put("cardId", user.getCardId());
+                                        user_sp.put("courType", user.getCourType());
+                                        courIds.put(user.getCardId(), user.getCourIds());
+                                        courTypes.put(user.getCardId(), user.getCourType());
+                                        pfpIds.put(user.getCardId(),infoMap.get("pfpIds"));
                                         ToastUtils.showLong("人员插入成功");
                                         finish();
-                                   }else if(infoMap.get("result").equals("dataErr")){
-                                        new AlertView("验证失败", null, null, new String[]{"确定"}, null, AddPersonActivity.this, AlertView.Style.Alert, new OnItemClickListener() {
+                                    } else if (infoMap.get("result").equals("false")) {
+                                        new AlertView("数据插入有错", null, null, new String[]{"确定"}, null, AddPersonActivity.this, AlertView.Style.Alert, new OnItemClickListener() {
                                             @Override
                                             public void onItemClick(Object o, int position) {
 
                                             }
                                         }).show();
-                                   }else if(infoMap.get("result").equals("dbErr")){
-                                        new AlertView("数据库操作有错", null, null, new String[]{"确定"}, null, AddPersonActivity.this, AlertView.Style.Alert, new OnItemClickListener() {
+                                    } else {
+                                        new AlertView(infoMap.get("result"), null, null, new String[]{"确定"}, null, AddPersonActivity.this, AlertView.Style.Alert, new OnItemClickListener() {
                                             @Override
                                             public void onItemClick(Object o, int position) {
 
                                             }
                                         }).show();
                                     }
-                                }catch (IOException e){
+                                } catch (IOException e) {
                                     e.printStackTrace();
                                 }
 
@@ -191,9 +193,9 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
                             public void onComplete() {
                                 progressDialog.dismiss();
                             }
-                        });*/
+                        });
 
-            }else{
+            } else {
                 new AlertView("您的操作有误，请重试", null, null, new String[]{"确定"}, null, AddPersonActivity.this, AlertView.Style.Alert, new OnItemClickListener() {
                     @Override
                     public void onItemClick(Object o, int position) {
@@ -201,7 +203,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
                     }
                 }).show();
             }
-        }else{
+        } else {
             new AlertView("您还有信息未登记，如需退出请按取消", null, null, new String[]{"确定"}, null, AddPersonActivity.this, AlertView.Style.Alert, new OnItemClickListener() {
                 @Override
                 public void onItemClick(Object o, int position) {
@@ -211,14 +213,14 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
         }
 
 
-
     }
 
     @OnClick(R.id.btn_cancel)
-    void cancel(){
+    void cancel() {
         fpp.fpRemoveTmpl(String.valueOf(fp_id));
         finish();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -230,10 +232,8 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
                 .subscribe(new Consumer<Object>() {
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
-                        if (commitable) {
-                            fpp.fpEnroll(String.valueOf(fp_id));
-                            img_finger.setClickable(false);
-                        }
+                        fpp.fpEnroll(String.valueOf(fp_id));
+                        img_finger.setClickable(false);
                     }
                 });
         img_finger.setClickable(false);
@@ -251,8 +251,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
             tv_finger.setText(msg);
         }
         if (msg.endsWith("录入成功")) {
-            commitable =true;
-
+            commitable = true;
         }
         if (msg.endsWith("点我重试")) {
             img_finger.setClickable(true);
@@ -277,8 +276,8 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
 
     @Override
     public void onsetCardInfo(final CardInfoRk123x cardInfo) {
-        person_name.setText("人员姓名："+cardInfo.name());
-        person_id.setText("人员身份证："+cardInfo.cardId());
+        person_name.setText("人员姓名：" + cardInfo.name());
+        person_id.setText("人员身份证：" + cardInfo.cardId());
         RetrofitGenerator.getQueryPersonInfoApi().queryPersonInfo(config.getString("key"),/*cardInfo.cardId()*/"632700197011090582")
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -295,8 +294,8 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
                             Map<String, String> infoMap = new Gson().fromJson(responseBody.string(),
                                     new TypeToken<HashMap<String, String>>() {
                                     }.getType());
-                            if(infoMap.get("result").equals("true")){
-                                if(infoMap.get("status").equals(String.valueOf(1))){
+                            if (infoMap.get("result").equals("true")) {
+                                if (infoMap.get("status").equals(String.valueOf(1))) {
                                     fp_id = fpp.fpGetEmptyID();
                                     idp.stopReadCard();
                                     img_finger.setClickable(false);
@@ -309,7 +308,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
                                     user.setFingerprintId(String.valueOf(fp_id));
                                     user.setCourIds(infoMap.get("courIds"));
                                     user.setCourType(infoMap.get("courType"));
-                                }else{
+                                } else {
                                     new AlertView("您的身份有误，如有疑问请联系客服处理", null, null, new String[]{"确定"}, null, AddPersonActivity.this, AlertView.Style.Alert, new OnItemClickListener() {
                                         @Override
                                         public void onItemClick(Object o, int position) {
@@ -317,7 +316,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
                                         }
                                     }).show();
                                 }
-                            }else{
+                            } else {
                                 new AlertView(infoMap.get("result"), null, null, new String[]{"确定"}, null, AddPersonActivity.this, AlertView.Style.Alert, new OnItemClickListener() {
                                     @Override
                                     public void onItemClick(Object o, int position) {
@@ -325,7 +324,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
                                     }
                                 }).show();
                             }
-                        }catch (IOException e){
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
 
@@ -357,7 +356,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RetrofitGenerator.getOpenDoorRecordApi().openDoorRecord(config.getString("key"),jsonObject.toString())
+        RetrofitGenerator.getOpenDoorRecordApi().openDoorRecord(config.getString("key"), jsonObject.toString())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -403,7 +402,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView,IIDC
     @Override
     protected void onResume() {
         super.onResume();
-        commitable =false;
+        commitable = false;
         idp.readCard();
     }
 

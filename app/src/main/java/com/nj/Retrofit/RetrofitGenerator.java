@@ -37,7 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitGenerator {
     private static String TAG = "RetrofitGenerator";
-    private static final String PREFS_NAME = "UserInfo";
+    private static final String PREFS_NAME = "config";
     private static final String Uri = "https://113.140.1.137:8446/wiscrisrest/deviceDocking/";
     private static OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
     private static GetTimeApi getTimeApi;
@@ -80,7 +80,7 @@ public class RetrofitGenerator {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(Uri).client(client).build();
+                .baseUrl(/* SPUtils.getInstance("config").getString("ServerId")*/Uri).client(client).build();
         return retrofit.create(serviceClass);
     }
 

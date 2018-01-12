@@ -51,6 +51,7 @@ public class StartActivity extends Activity {
             config.put("firstStart", false);
             config.put("daid", dev_suffix.getText().toString());
             config.put("key",DESX.encrypt(jsonKey.toString()));
+            config.put("ServerId","https://113.140.1.137:8446/wiscrisrest/deviceDocking/");
             ActivityUtils.startActivity(getPackageName(),getPackageName()+".IndexActivity");
             copyFilesToSdCard();
             StartActivity.this.finish();
