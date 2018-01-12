@@ -60,6 +60,7 @@ public class SplashActivity extends Activity {
 
                         @Override
                         public void onComplete() {
+                            dialog.dismiss();
 
                         }
                     });

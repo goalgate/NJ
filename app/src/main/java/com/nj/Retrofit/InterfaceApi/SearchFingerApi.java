@@ -12,6 +12,6 @@ import retrofit2.http.Query;
 public interface SearchFingerApi {
 
     @POST("searchFinger.json")
-    Observable<ResponseBody> searchFinger(@Query("key") String key);
+    Observable<ResponseBody> searchFinger(@Query("key") String key,@Query("jsonData") String jsonData);
 
 }

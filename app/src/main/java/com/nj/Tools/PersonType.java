@@ -5,10 +5,9 @@ package com.nj.Tools;
  */
 
 public class PersonType {
-
-    public static String Other = "20170810105138006";
     public static String KuGuan = "20170810105138008"; //真正是113
     public static String KuGuan2 = "2017081010513800"; //真正是113
     public static String XunJian = "20170810105138116";
+    public static String Gongan = "3";
 
 }

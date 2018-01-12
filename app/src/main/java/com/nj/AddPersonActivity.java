@@ -72,7 +72,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView, IID
 
     SPUtils courIds = SPUtils.getInstance("courId");
 
-    SPUtils pfpIds = SPUtils.getInstance("pfpIds");
+/*    SPUtils pfpIds = SPUtils.getInstance("pfpIds");*/
 
     SPUtils courTypes = SPUtils.getInstance("courType");
 
@@ -82,7 +82,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView, IID
 
     User user;
 
-    int fp_id = 0;
+    String fp_id = "0";
 
     IDCardPresenter idp = IDCardPresenter.getInstance();
 
@@ -120,8 +120,9 @@ public class AddPersonActivity extends Activity implements IFingerPrintView, IID
                 final ProgressDialog progressDialog = new ProgressDialog(AddPersonActivity.this);
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put("pfpIds", pfpIds.getString(user.getCardId()));
+/*                    jsonObject.put("pfpIds", pfpIds.getString(user.getCardId()));*/
                     jsonObject.put("id", user.getCardId());
+                    jsonObject.put("dataType","1");
                     jsonObject.put("fingerprintPhoto", user.getFingerprintPhoto());
                     jsonObject.put("fingerprintId", user.getFingerprintId());
                     jsonObject.put("fingerprintKey", fpp.fpUpTemlate(user.getFingerprintId()));
@@ -154,7 +155,6 @@ public class AddPersonActivity extends Activity implements IFingerPrintView, IID
                                         user_sp.put("courType", user.getCourType());
                                         courIds.put(user.getCardId(), user.getCourIds());
                                         courTypes.put(user.getCardId(), user.getCourType());
-                                        pfpIds.put(user.getCardId(),infoMap.get("pfpIds"));
                                         ToastUtils.showLong("人员插入成功");
                                         finish();
                                     } else if (infoMap.get("result").equals("false")) {
@@ -232,7 +232,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView, IID
                 .subscribe(new Consumer<Object>() {
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
-                        fpp.fpEnroll(String.valueOf(fp_id));
+                        fpp.fpEnroll(fp_id);
                         img_finger.setClickable(false);
                     }
                 });
@@ -296,16 +296,16 @@ public class AddPersonActivity extends Activity implements IFingerPrintView, IID
                                     }.getType());
                             if (infoMap.get("result").equals("true")) {
                                 if (infoMap.get("status").equals(String.valueOf(1))) {
-                                    fp_id = fpp.fpGetEmptyID();
+                                    fp_id = infoMap.get("data");
                                     idp.stopReadCard();
                                     img_finger.setClickable(false);
-                                    fpp.fpEnroll(String.valueOf(fp_id));
+                                    fpp.fpEnroll(fp_id);
                                     user = new User();
                                   /*  user.setCardId(cardInfo.cardId());
                                     user.setName(cardInfo.name());*/
                                     user.setCardId("632700197011090582");
                                     user.setName(infoMap.get("name"));
-                                    user.setFingerprintId(String.valueOf(fp_id));
+                                    user.setFingerprintId(fp_id);
                                     user.setCourIds(infoMap.get("courIds"));
                                     user.setCourType(infoMap.get("courType"));
                                 } else {
