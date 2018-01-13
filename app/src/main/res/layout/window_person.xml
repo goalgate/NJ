@@ -51,7 +51,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@id/btn_server"
                     android:background="@drawable/increase_bg"
-                    android:text="人员更新"
+                    android:text="设备信息同步"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
             </TableRow>
