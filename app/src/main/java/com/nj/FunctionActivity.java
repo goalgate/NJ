@@ -43,7 +43,6 @@ public abstract class FunctionActivity extends RxActivity implements IPhotoView,
         BarUtils.hideStatusBar(this);
         pp.initCamera();
         idp.idCardOpen();
-
     }
 
     @Override
@@ -93,5 +92,6 @@ public abstract class FunctionActivity extends RxActivity implements IPhotoView,
         super.onDestroy();
         fpp.fpClose();
         idp.idCardClose();
+        pp.close_Camera();
     }
 }

@@ -353,6 +353,11 @@ public class PhotoModuleImpl implements IPhotoModule {
 
     }
 
+    @Override
+    public void closeCamera() {
+        releaseCameraAndPreview();
+    }
+
     private void releaseCameraAndPreview() {
         if (camera != null) {
             camera.stopPreview();

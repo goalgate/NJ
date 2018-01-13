@@ -120,7 +120,6 @@ public class AddPersonActivity extends Activity implements IFingerPrintView, IID
                 final ProgressDialog progressDialog = new ProgressDialog(AddPersonActivity.this);
                 JSONObject jsonObject = new JSONObject();
                 try {
-/*                    jsonObject.put("pfpIds", pfpIds.getString(user.getCardId()));*/
                     jsonObject.put("id", user.getCardId());
                     jsonObject.put("dataType","1");
                     jsonObject.put("fingerprintPhoto", user.getFingerprintPhoto());

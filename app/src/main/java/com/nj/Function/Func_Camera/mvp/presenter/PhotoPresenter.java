@@ -103,4 +103,8 @@ public class PhotoPresenter {
         });
     }
 
+    public void close_Camera(){
+        photoModule.closeCamera();
+    }
+
 }

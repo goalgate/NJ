@@ -1,6 +1,7 @@
 package com.nj.UI;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
@@ -25,7 +26,9 @@ public class AddPersonWindow extends PopupWindow implements View.OnClickListener
     OptionTypeListener listener;
     Button add;
     Button server;
+    Button ipSetting;
     Button update;
+    Button delete;
 
     public AddPersonWindow(Activity activity) {
         mActivity = activity;
@@ -36,10 +39,13 @@ public class AddPersonWindow extends PopupWindow implements View.OnClickListener
         add = (Button) mContentView.findViewById(R.id.btn_add);
         server = (Button) mContentView.findViewById(R.id.btn_server);
         update = (Button) mContentView.findViewById(R.id.btn_update);
+        ipSetting = (Button) mContentView.findViewById(R.id.btn_ipSetting);
+        delete = (Button) mContentView.findViewById(R.id.btn_delete);
         add.setOnClickListener(this);
         server.setOnClickListener(this);
         update.setOnClickListener(this);
-
+        ipSetting.setOnClickListener(this);
+        delete.setOnClickListener(this);
         setFocusable(true);
         setOutsideTouchable(true);
         setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")));
@@ -90,6 +96,12 @@ public class AddPersonWindow extends PopupWindow implements View.OnClickListener
                 break;
             case R.id.btn_update :
                 listener.onOptionType(update,3);
+                break;
+            case R.id.btn_ipSetting :
+                listener.onOptionType(ipSetting,4);
+                break;
+            case R.id.btn_delete :
+                listener.onOptionType(delete,5);
                 break;
         }
     }
