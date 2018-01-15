@@ -106,17 +106,8 @@ public class AddPersonActivity extends Activity implements IFingerPrintView, IID
 
     @OnClick(R.id.btn_commit)
     void commit() {
-        if (    commitable) {
+        if (commitable) {
             if (user.getFingerprintId() != null) {
-              /*  SPUtils user_sp = SPUtils.getInstance(user.getFingerprintId());
-                user_sp.put("courIds",user.getCourIds());
-                user_sp.put("name",user.getName());
-                user_sp.put("cardId",user.getCardId());
-                user_sp.put("courType",user.getCourType());
-                courIds.put(user.getCardId(),user.getCourIds());
-                courTypes.put(user.getCardId(),user.getCourType());
-                ToastUtils.showLong("人员插入成功");
-                finish();*/
                 final ProgressDialog progressDialog = new ProgressDialog(AddPersonActivity.this);
                 JSONObject jsonObject = new JSONObject();
                 try {
@@ -277,7 +268,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView, IID
     public void onsetCardInfo(final CardInfoRk123x cardInfo) {
         person_name.setText("人员姓名：" + cardInfo.name());
         person_id.setText("人员身份证：" + cardInfo.cardId());
-        RetrofitGenerator.getQueryPersonInfoApi().queryPersonInfo(config.getString("key"),/*cardInfo.cardId()*/"632700197011090582")
+        RetrofitGenerator.getQueryPersonInfoApi().queryPersonInfo(config.getString("key"),cardInfo.cardId()/*"632700197011090582"*/)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -300,10 +291,10 @@ public class AddPersonActivity extends Activity implements IFingerPrintView, IID
                                     img_finger.setClickable(false);
                                     fpp.fpEnroll(fp_id);
                                     user = new User();
-                                  /*  user.setCardId(cardInfo.cardId());
-                                    user.setName(cardInfo.name());*/
-                                    user.setCardId("632700197011090582");
-                                    user.setName(infoMap.get("name"));
+                                    user.setCardId(cardInfo.cardId());
+                                    user.setName(cardInfo.name());
+                               /*     user.setCardId("632700197011090582");
+                                    user.setName(infoMap.get("name"));*/
                                     user.setFingerprintId(fp_id);
                                     user.setCourIds(infoMap.get("courIds"));
                                     user.setCourType(infoMap.get("courType"));
@@ -311,15 +302,22 @@ public class AddPersonActivity extends Activity implements IFingerPrintView, IID
                                     new AlertView("您的身份有误，如有疑问请联系客服处理", null, null, new String[]{"确定"}, null, AddPersonActivity.this, AlertView.Style.Alert, new OnItemClickListener() {
                                         @Override
                                         public void onItemClick(Object o, int position) {
-
+                                            infoClear();
                                         }
                                     }).show();
                                 }
-                            } else {
+                            }else if(infoMap.get("result").equals("matchErr")){
+                                new AlertView("系统未能查询到该人员信息，如有疑问请联系客服处理", null, null, new String[]{"确定"}, null, AddPersonActivity.this, AlertView.Style.Alert, new OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(Object o, int position) {
+                                        infoClear();
+                                    }
+                                }).show();
+                            }else {
                                 new AlertView(infoMap.get("result"), null, null, new String[]{"确定"}, null, AddPersonActivity.this, AlertView.Style.Alert, new OnItemClickListener() {
                                     @Override
                                     public void onItemClick(Object o, int position) {
-
+                                        infoClear();
                                     }
                                 }).show();
                             }
@@ -408,8 +406,15 @@ public class AddPersonActivity extends Activity implements IFingerPrintView, IID
     @Override
     protected void onStop() {
         super.onStop();
-
     }
+
+    private void infoClear(){
+        person_name.setText("人员姓名：");
+        person_id.setText("人员身份证：");
+        headphoto.setImageBitmap(null);
+        fp_id = "0";
+    }
+
 
 
     @Override
