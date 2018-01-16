@@ -114,6 +114,29 @@ public class SwitchService extends Service implements ISwitchView {
     public void onGetPassEvent(PassEvent event) {
         lock.setLockState(new State_Unlock(sp));
         lock.doNext();
+        Observable.timer(120, TimeUnit.SECONDS).subscribeOn(Schedulers.newThread())
+                .subscribe(new Observer<Long>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        unlock_noOpen = d;
+                    }
+
+                    @Override
+                    public void onNext(Long aLong) {
+                        lock.setLockState(new State_Lockup(sp));
+                        sp.buzz(SwitchImpl.Hex.H2);
+                        EventBus.getDefault().post(new LockUpEvent());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
     }
 
     @Override
@@ -156,7 +179,7 @@ public class SwitchService extends Service implements ISwitchView {
                         if (rx_delay != null) {
                             rx_delay.dispose();
                         }
-                    } else if (Last_Value.equals("AAAAAA000001000000")) {
+                    } else if (Last_Value.equals("AAAAAA000001000000")&&getLockState(State_Unlock.class)) {
                         final String closeDoorTime = TimeUtils.getNowString();
                         Observable.timer(20, TimeUnit.SECONDS).subscribeOn(Schedulers.newThread())
                                 .subscribe(new Observer<Long>() {
@@ -185,31 +208,6 @@ public class SwitchService extends Service implements ISwitchView {
                                     }
                                 });
                     }
-                }
-                if (getLockState(State_Unlock.class)&& value.equals("AAAAAA000001000000")) {
-                    Observable.timer(120, TimeUnit.SECONDS).subscribeOn(Schedulers.newThread())
-                            .subscribe(new Observer<Long>() {
-                                @Override
-                                public void onSubscribe(Disposable d) {
-                                    unlock_noOpen = d;
-                                }
-
-                                @Override
-                                public void onNext(Long aLong) {
-                                    lock.setLockState(new State_Lockup(sp));
-                                    sp.buzz(SwitchImpl.Hex.H2);
-                                    EventBus.getDefault().post(new LockUpEvent());
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-
-                                }
-
-                                @Override
-                                public void onComplete() {
-                                }
-                            });
                 }
             }else{
                 if (value.startsWith("BBBBBB") && value.endsWith("C1EF")) {
