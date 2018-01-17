@@ -47,8 +47,16 @@ public class SplashActivity extends RxActivity {
                         fpp.fpInit();
                         fpp.fpOpen();
                         if (SP_Config.getBoolean("firstStart", true)) {
-                            ActivityUtils.startActivity(getPackageName(),getPackageName()+".StartActivity");
-                            SplashActivity.this.finish();
+                            Observable.timer(3, TimeUnit.SECONDS)
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .compose(SplashActivity.this.<Long>bindUntilEvent(ActivityEvent.DESTROY))
+                                    .subscribe(new Consumer<Long>() {
+                                        @Override
+                                        public void accept(Long aLong) throws Exception {
+                                            ActivityUtils.startActivity(getPackageName(),getPackageName()+".StartActivity");
+                                            SplashActivity.this.finish();
+                                        }
+                                    });
                         }else {
                             Observable.timer(3, TimeUnit.SECONDS)
                                     .observeOn(AndroidSchedulers.mainThread())
