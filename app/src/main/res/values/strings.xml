@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">南京灌云采集器</string>
+    <string name="app_name">库房数据采集仪</string>
     <string name="dev_id">设备ID号:</string>
     <string name="server_ip">服务器地址:</string>
     <string name="ip_id">设备IP号:</string>

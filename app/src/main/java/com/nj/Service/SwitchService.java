@@ -13,6 +13,7 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.nj.AppInit;
 import com.nj.EventBus.LockUpEvent;
 import com.nj.EventBus.NetworkEvent;
 import com.nj.EventBus.PassEvent;
@@ -37,9 +38,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -85,7 +91,7 @@ public class SwitchService extends Service implements ISwitchView {
         Log.e("Message","ServiceStart");
         lock = new Lock(new State_Lockup(sp));
         door = new Door(new State_Close(lock));
-
+        reboot();
         Observable.interval(0, 5, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
             @Override
             public void accept(@NonNull Long aLong) throws Exception {
@@ -234,6 +240,7 @@ public class SwitchService extends Service implements ISwitchView {
             return false;
         }
     }
+
     private Boolean getLockState(Class stateClass) {
         if (lock.getLockState().getClass().getName().equals(stateClass.getName())) {
             return true;
@@ -313,6 +320,7 @@ public class SwitchService extends Service implements ISwitchView {
             }
         });
     }
+
     private void alarmRecord() {
         JSONObject alarmRecordJson = new JSONObject();
         try {
@@ -347,6 +355,7 @@ public class SwitchService extends Service implements ISwitchView {
             }
         });
     }
+
     private void CloseDoorRecord(String time) {
         JSONObject CloseDoorRecordJson = new JSONObject();
         try {
@@ -381,5 +390,28 @@ public class SwitchService extends Service implements ISwitchView {
                     }
                 });
 
+    }
+
+    private void reboot(){
+        long daySpan = 24 * 60 * 60 * 1000 * 2;
+        // 规定的每天时间，某时刻运行
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd '3:00:00'");
+        // 首次运行时间
+        try{
+            Date startTime= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(sdf.format(new Date()));
+            if(System.currentTimeMillis() > startTime.getTime())
+                startTime = new Date(startTime.getTime() + daySpan);
+            Timer t = new Timer();
+            TimerTask task = new TimerTask(){
+                @Override
+                public void run() {
+                    // 要执行的代码
+                    AppInit.getMyManager().reboot();
+                }
+            };
+            t.scheduleAtFixedRate(task, startTime,daySpan);
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
     }
 }
