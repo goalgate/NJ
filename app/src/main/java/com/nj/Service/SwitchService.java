@@ -14,6 +14,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nj.AppInit;
+import com.nj.EventBus.AlarmEvent;
 import com.nj.EventBus.LockUpEvent;
 import com.nj.EventBus.NetworkEvent;
 import com.nj.EventBus.PassEvent;
@@ -91,7 +92,7 @@ public class SwitchService extends Service implements ISwitchView {
         Log.e("Message","ServiceStart");
         lock = new Lock(new State_Lockup(sp));
         door = new Door(new State_Close(lock));
-        reboot();
+            reboot();
         Observable.interval(0, 5, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
             @Override
             public void accept(@NonNull Long aLong) throws Exception {
@@ -164,19 +165,31 @@ public class SwitchService extends Service implements ISwitchView {
                 if (value.equals("AAAAAA000000000000")) {
                     door.setDoorState(new State_Open(lock));
                     door.doNext();
-                    alarmRecord();
+                    alarmRecord(String.valueOf(1));
                 }
             }
         } else {
             if (value.startsWith("AAAAAA")) {
                 if (!value.equals(Last_Value)) {
                     Last_Value = value;
+                    if(Last_Value.substring(6,8).equals("01")){//泄露报警
+                        if (getLockState(State_Lockup.class)){
+                            alarmRecord(String.valueOf(2));
+                            EventBus.getDefault().post(new AlarmEvent(2));
+                        }
+                    }
+                    if(Last_Value.substring(8,10).equals("01")){//入侵报警
+                        if (getLockState(State_Lockup.class)){
+                            alarmRecord(String.valueOf(3));
+                            EventBus.getDefault().post(new AlarmEvent(3));
+                        }
+                    }
                     if (Last_Value.equals("AAAAAA000000000000")) {
                         if(getDoorState(State_Close.class)){
                             door.setDoorState(new State_Open(lock));
                             door.doNext();
                             if (getLockState(State_Lockup.class)){
-                                alarmRecord();
+                                alarmRecord(String.valueOf(1));
                             }
                         }
                         if (unlock_noOpen != null) {
@@ -321,11 +334,11 @@ public class SwitchService extends Service implements ISwitchView {
         });
     }
 
-    private void alarmRecord() {
+    private void alarmRecord(String type) {
         JSONObject alarmRecordJson = new JSONObject();
         try {
             alarmRecordJson.put("datetime", TimeUtils.getNowString());
-            alarmRecordJson.put("alarmType", String.valueOf(1));
+            alarmRecordJson.put("alarmType", type);
             alarmRecordJson.put("alarmValue", String.valueOf(0));
         } catch (JSONException e) {
             e.printStackTrace();
