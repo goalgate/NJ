@@ -6,9 +6,23 @@ package com.nj.State.DoorState;
 
 public class Door {
 
+    private Door(){}
+
+    private static Door instance = null;
+
+    public static Door getInstance(){
+        return instance;
+    }
+
+    public static Door getInstance(DoorState doorState){
+        if (instance == null)
+            instance = new Door(doorState);
+        return instance;
+    }
+
     private DoorState doorState;
 
-    public Door(DoorState doorState) {
+    private Door(DoorState doorState) {
         this.doorState = doorState;
     }
 

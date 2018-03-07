@@ -9,8 +9,19 @@ package com.nj.State.LockState;
 public class Lock {
 
     private LockState lockState;
+    private static Lock instance = null;
 
-    public Lock(LockState lockState) {
+    public static Lock getInstance(){
+        return instance;
+    }
+
+    public static Lock getInstance(LockState lockState){
+        if (instance == null)
+            instance = new Lock(lockState);
+        return instance;
+    }
+
+    private Lock(LockState lockState) {
 
         this.lockState = lockState;
 

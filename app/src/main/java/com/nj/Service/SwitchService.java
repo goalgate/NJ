@@ -90,8 +90,8 @@ public class SwitchService extends Service implements ISwitchView {
         sp.SwitchPresenterSetView(this);
         sp.switch_Open();
         Log.e("Message","ServiceStart");
-        lock = new Lock(new State_Lockup(sp));
-        door = new Door(new State_Close(lock));
+        lock = Lock.getInstance(new State_Lockup(sp));
+        door = Door.getInstance(new State_Close(lock));
             reboot();
         Observable.interval(0, 5, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
             @Override
@@ -174,14 +174,14 @@ public class SwitchService extends Service implements ISwitchView {
                     Last_Value = value;
                     if(Last_Value.substring(6,8).equals("01")){//泄露报警
                         if (getLockState(State_Lockup.class)){
-                            alarmRecord(String.valueOf(2));
-                            EventBus.getDefault().post(new AlarmEvent(2));
+                            alarmRecord(String.valueOf(5));
+                            EventBus.getDefault().post(new AlarmEvent(5));
                         }
                     }
                     if(Last_Value.substring(8,10).equals("01")){//入侵报警
                         if (getLockState(State_Lockup.class)){
-                            alarmRecord(String.valueOf(3));
-                            EventBus.getDefault().post(new AlarmEvent(3));
+                            alarmRecord(String.valueOf(2));
+                            EventBus.getDefault().post(new AlarmEvent(2));
                         }
                     }
                     if (Last_Value.equals("AAAAAA000000000000")) {
@@ -198,34 +198,41 @@ public class SwitchService extends Service implements ISwitchView {
                         if (rx_delay != null) {
                             rx_delay.dispose();
                         }
-                    } else if (Last_Value.equals("AAAAAA000001000000")&&getLockState(State_Unlock.class)) {
-                        final String closeDoorTime = TimeUtils.getNowString();
-                        Observable.timer(20, TimeUnit.SECONDS).subscribeOn(Schedulers.newThread())
-                                .subscribe(new Observer<Long>() {
-                                    @Override
-                                    public void onSubscribe(Disposable d) {
-                                        rx_delay = d;
-                                    }
+                    } else if (Last_Value.equals("AAAAAA000001000000")) {
+                        door.setDoorState(new State_Close(lock));
+                        if (getLockState(State_Unlock.class)){
+                            final String closeDoorTime = TimeUtils.getNowString();
+                            Observable.timer(20, TimeUnit.SECONDS).subscribeOn(Schedulers.newThread())
+                                    .subscribe(new Observer<Long>() {
+                                        @Override
+                                        public void onSubscribe(Disposable d) {
+                                            rx_delay = d;
+                                        }
 
-                                    @Override
-                                    public void onNext(Long aLong) {
-                                        lock.setLockState(new State_Lockup(sp));
-                                        door.setDoorState(new State_Close(lock));
-                                        sp.buzz(SwitchImpl.Hex.H2);
-                                        CloseDoorRecord(closeDoorTime);
-                                        EventBus.getDefault().post(new LockUpEvent());
-                                    }
+                                        @Override
+                                        public void onNext(Long aLong) {
+                                            lock.setLockState(new State_Lockup(sp));
+                                            //door.setDoorState(new State_Close(lock));
+                                            sp.buzz(SwitchImpl.Hex.H2);
+                                            if(unlock_noOpen!=null){
+                                                unlock_noOpen.dispose();
+                                            }
+                                            CloseDoorRecord(closeDoorTime);
+                                            EventBus.getDefault().post(new LockUpEvent());
+                                        }
 
-                                    @Override
-                                    public void onError(Throwable e) {
+                                        @Override
+                                        public void onError(Throwable e) {
 
-                                    }
+                                        }
 
-                                    @Override
-                                    public void onComplete() {
+                                        @Override
+                                        public void onComplete() {
 
-                                    }
-                                });
+                                        }
+                                    });
+                        }
+
                     }
                 }
             }else{

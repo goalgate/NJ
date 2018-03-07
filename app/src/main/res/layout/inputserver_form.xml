@@ -15,7 +15,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-        <LinearLayout
+        <!--<LinearLayout
             android:id="@+id/firstLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,14 +68,16 @@
                     android:textColor="@color/primary_text"
                     android:textSize="10pt" />
             </LinearLayout>
-        </LinearLayout>
+        </LinearLayout>-->
 
+<!--
+        android:layout_below="@id/firstLine"
+-->
 
         <TextView
             android:id="@+id/server_describe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/firstLine"
             android:layout_marginTop="20dp"
             android:text="@string/server_ip"
             android:textColor="@color/primary_text"
