@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.session.PlaybackState;
 import android.os.IBinder;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
@@ -284,11 +285,14 @@ public class SwitchService extends Service implements ISwitchView {
                     Map<String, String> infoMap = new Gson().fromJson(responseBody.string(),
                             new TypeToken<HashMap<String, String>>() {
                             }.getType());
-                    if(infoMap.get("result").equals("true")){
-                        EventBus.getDefault().post(new NetworkEvent(true));
-                    }else{
-                        EventBus.getDefault().post(new NetworkEvent(false));
+                    if(!TextUtils.isEmpty(infoMap.get("result"))){
+                        if(infoMap.get("result").equals("true")){
+                            EventBus.getDefault().post(new NetworkEvent(true));
+                        }else{
+                            EventBus.getDefault().post(new NetworkEvent(false));
+                        }
                     }
+
                 }catch (IOException e){
                     e.printStackTrace();
                 }

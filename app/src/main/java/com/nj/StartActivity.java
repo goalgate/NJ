@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -41,22 +42,27 @@ public class StartActivity extends Activity {
 
     @OnClick(R.id.next)
     void next() {
-            JSONObject jsonKey = new JSONObject();
-            try {
-                jsonKey.put("daid", dev_suffix.getText().toString());
-                jsonKey.put("check", DESX.encrypt(dev_suffix.getText().toString()));
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if(!TextUtils.isEmpty(dev_suffix.getText().toString())){
+                JSONObject jsonKey = new JSONObject();
+                try {
+                    jsonKey.put("daid", dev_suffix.getText().toString());
+                    jsonKey.put("check", DESX.encrypt(dev_suffix.getText().toString()));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                config.put("firstStart", false);
+                config.put("daid", dev_suffix.getText().toString());
+                config.put("key",DESX.encrypt(jsonKey.toString()));
+               // config.put("ServerId","https://zhwg.njga.gov.cn:8080/wiscrisrest/deviceDocking/");
+                config.put("ServerId","https://zhwg.njga.gov.cn:8080/andrest/deviceDocking/");
+                //config.put("ServerId","https://222.189.59.242:8445/andrest/deviceDocking/");
+                ActivityUtils.startActivity(getPackageName(),getPackageName()+".IndexActivity");
+                copyFilesToSdCard();
+                StartActivity.this.finish();
+                ToastUtils.showLong("设备ID设置成功");
+            }else{
+                ToastUtils.showLong("ID号不能为空");
             }
-            config.put("firstStart", false);
-            config.put("daid", dev_suffix.getText().toString());
-            config.put("key",DESX.encrypt(jsonKey.toString()));
-            config.put("ServerId","https://222.189.59.242:8445/wiscrisrest/deviceDocking/");
-            ActivityUtils.startActivity(getPackageName(),getPackageName()+".IndexActivity");
-            copyFilesToSdCard();
-            StartActivity.this.finish();
-            ToastUtils.showLong("设备ID设置成功");
-
     }
 
     @Override

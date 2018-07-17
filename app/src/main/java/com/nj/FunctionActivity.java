@@ -84,6 +84,7 @@ public abstract class FunctionActivity extends RxActivity implements IPhotoView,
         fpp.fpCancel(true);
         fpp.FingerPrintPresenterSetView(null);
         pp.PhotoPresenterSetView(null);
+        idp.IDCardPresenterSetView(null);
         idp.stopReadCard();
     }
 

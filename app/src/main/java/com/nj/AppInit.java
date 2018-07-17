@@ -66,6 +66,8 @@ public class AppInit extends Application {
 
         manager = MyManager.getInstance(this);
 
+        manager.bindAIDLService(this);
+
         Utils.init(getContext());
     }
 
