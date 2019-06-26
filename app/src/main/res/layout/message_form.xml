@@ -8,82 +8,267 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
-        android:layout_margin="15dip"
+        android:layout_margin="5dip"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:focusable="true"
         android:focusableInTouchMode="true">
 
 
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/msg_daid"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="10pt" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/msg_software"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="10pt" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/msg_ip"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="10pt" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/msg_mac"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="10pt" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/msg_ipmode"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="10pt" />-->
+
+
+        <!--<TextView-->
+        <!--android:id="@+id/msg_network"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="10pt" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/msg_iccard"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="10pt" />-->
+        <!--<TextView-->
+        <!--android:id="@+id/msg_lockState"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="10pt" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/msg_doorState"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="10pt" />-->
+
+        <!--</LinearLayout>-->
+
         <LinearLayout
+
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/msg_daid"
-                android:layout_width="wrap_content"
+            <TableLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="10pt" />
+                android:background="#ffcccccc">
 
-            <TextView
-                android:id="@+id/msg_software"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="10pt" />
+                <TableRow
+                    android:background="#ffdd99"
+                    android:layout_margin="0.5dip">
 
-            <TextView
-                android:id="@+id/msg_ip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="10pt" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="设备ID："
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
 
-            <TextView
-                android:id="@+id/msg_mac"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="10pt" />
+                    <TextView
+                        android:id="@+id/msg_daid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5pt"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+                </TableRow>
 
-            <TextView
-                android:id="@+id/msg_ipmode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="10pt" />
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="软件版本号:"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+
+                    <TextView
+                        android:id="@+id/msg_software"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5pt"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+                </TableRow>
+
+                <TableRow android:background="#ffdd99"
+                    android:layout_margin="0.5dip">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="IP地址:"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+
+                    <TextView
+                        android:id="@+id/msg_ip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5pt"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MAC地址:"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+
+                    <TextView
+                        android:id="@+id/msg_mac"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5pt"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+                </TableRow>
+
+                <TableRow
+                    android:background="#ffdd99"
+                    android:layout_margin="0.5dip">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="IP地址获取模式："
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+
+                    <TextView
+                        android:id="@+id/msg_ipmode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5pt"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="网络通信情况："
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+
+                    <TextView
+                        android:id="@+id/msg_network"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5pt"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+                </TableRow>
 
 
+                <TableRow
+                    android:background="#ffdd99"
+                    android:layout_margin="0.5dip">
 
-            <TextView
-                android:id="@+id/msg_network"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="10pt" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="身份证功能测试："
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
 
-            <TextView
-                android:id="@+id/msg_iccard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="10pt" />
-            <TextView
-                android:id="@+id/msg_lockState"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="10pt" />
-            <TextView
-                android:id="@+id/msg_doorState"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="10pt" />
+                    <TextView
+                        android:id="@+id/msg_iccard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5pt"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+                </TableRow>
 
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="仓库状态锁判断："
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+
+                    <TextView
+                        android:id="@+id/msg_lockState"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5pt"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+                </TableRow>
+
+                <TableRow
+                    android:background="#ffdd99"
+                    android:layout_margin="0.5dip">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="仓库门状态判断："
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+
+                    <TextView
+                        android:id="@+id/msg_doorState"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5pt"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+                </TableRow>
+            </TableLayout>
         </LinearLayout>
+
 
     </RelativeLayout>
 

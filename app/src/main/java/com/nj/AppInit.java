@@ -3,22 +3,14 @@ package com.nj;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
-
-import com.alibaba.fastjson.serializer.FloatArraySerializer;
-import com.blankj.utilcode.util.SPUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.log.Lg;
-import com.nj.Function.Fun_FingerPrint.mvp.presenter.FingerPrintPresenter;
-import com.nj.Function.Func_Camera.mvp.presenter.PhotoPresenter;
-import com.nj.Tools.DESX;
+import com.nj.Tools.WZWManager;
+import com.nj.greendao.DaoMaster;
+import com.nj.greendao.DaoSession;
 import com.squareup.leakcanary.LeakCanary;
-import com.ys.myapi.MyManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,11 +23,18 @@ import java.io.OutputStream;
  */
 
 public class AppInit extends Application {
+    private DaoMaster.DevOpenHelper mHelper;
+
+    private SQLiteDatabase db;
+
+    private DaoMaster mDaoMaster;
+
+    private DaoSession mDaoSession;
     protected static AppInit instance;
 
-    protected static MyManager manager;
+    protected static WZWManager manager;
 
-    public static MyManager getMyManager() {
+    public static WZWManager getMyManager() {
         return manager;
     }
 
@@ -47,7 +46,6 @@ public class AppInit extends Application {
         return getInstance().getApplicationContext();
     }
 
-    private static final String PREFS_NAME = "config";
 
     @Override
     public void onCreate() {
@@ -64,79 +62,33 @@ public class AppInit extends Application {
 
         instance = this;
 
-        manager = MyManager.getInstance(this);
+        manager = WZWManager.getInstance(this);
 
         manager.bindAIDLService(this);
 
         Utils.init(getContext());
+
+        setDatabase();
     }
 
-    String SDCardPath = Environment.getExternalStorageDirectory() +"/";
-    private void copyFilesToSdCard() {
-        copyFileOrDir(""); // copy all files in assets folder in my project
+    private void setDatabase() {
+        // 通过 DaoMaster 的内部类 DevOpenHelper，你可以得到一个便利的 SQLiteOpenHelper 对象。
+        // 可能你已经注意到了，你并不需要去编写「CREATE TABLE」这样的 SQL 语句，因为 greenDAO 已经帮你做了。
+        // 注意：默认的 DaoMaster.DevOpenHelper 会在数据库升级时，删除所有的表，意味着这将导致数据的丢失。
+        // 所以，在正式的项目中，你还应该做一层封装，来实现数据库的安全升级。
+        mHelper = new DaoMaster.DevOpenHelper(this, "NJProject-db", null);
+        db = mHelper.getWritableDatabase();
+        // 注意：该数据库连接属于 DaoMaster，所以多个 Session 指的是相同的数据库连接。
+        mDaoMaster = new DaoMaster(db);
+        mDaoSession = mDaoMaster.newSession();
     }
 
-    private void copyFileOrDir(String path) {
-        AssetManager assetManager = this.getAssets();
-        String assets[] = null;
-        try {
-            Lg.i("tag", "copyFileOrDir() "+path);
-            assets = assetManager.list(path);
-            if (assets.length == 0) {
-                copyFile(path);
-            } else {
-                String fullPath = SDCardPath+ path;
-                Lg.i("tag", "path="+fullPath);
-                File dir = new File(fullPath);
-                if (!dir.exists() && !path.startsWith("images") && !path.startsWith("sounds") && !path.startsWith("webkit"))
-                    if (!dir.mkdirs())
-                        Lg.i("tag", "could not create dir "+fullPath);
-                for (int i = 0; i < assets.length; ++i) {
-                    String p;
-                    if (path.equals(""))
-                        p = "";
-                    else
-                        p = path + "/";
-
-                    if (!path.startsWith("images") && !path.startsWith("sounds") && !path.startsWith("webkit"))
-                        copyFileOrDir( p + assets[i]);
-                }
-            }
-        } catch (IOException ex) {
-            Lg.e("tag", "I/O Exception");
-        }
+    public DaoSession getDaoSession() {
+        return mDaoSession;
     }
 
-    private void copyFile(String filename) {
-        AssetManager assetManager = this.getAssets();
-
-        InputStream in = null;
-        OutputStream out = null;
-        String newFileName = null;
-        try {
-            Lg.i("tag", "copyFile() "+filename);
-            in = assetManager.open(filename);
-            if (filename.endsWith(".jpg")) // extension was added to avoid compression on APK file
-                newFileName =SDCardPath+filename.substring(0, filename.length()-4);
-            else
-                newFileName =SDCardPath+filename;
-            out = new FileOutputStream(newFileName);
-
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = in.read(buffer)) != -1) {
-                out.write(buffer, 0, read);
-            }
-            in.close();
-            in = null;
-            out.flush();
-            out.close();
-            out = null;
-        } catch (Exception e) {
-            Lg.e("tag", "Exception in copyFile() of "+newFileName);
-            Lg.e("tag", "Exception in copyFile() "+e.toString());
-        }
-
+    public SQLiteDatabase getDb() {
+        return db;
     }
 
 }

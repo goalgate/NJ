@@ -268,7 +268,7 @@ public class DAInfo {
 
         //在画布上绘制水印图片
         // 保存
-        canvas.save(Canvas.ALL_SAVE_FLAG);
+        canvas.save();
         // 存储
         canvas.restore();
         return newb;

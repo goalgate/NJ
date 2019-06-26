@@ -17,132 +17,258 @@
 
 
         <LinearLayout
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <CheckBox
-                android:id="@+id/ip_checkBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="是否使用静态IP地址"
-                android:textSize="12pt" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
-                <TextView
+                <CheckBox
+                    android:id="@+id/ip_checkBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="IP地址:"
-                    android:textColor="@color/black"
-                    android:textSize="10pt" />
-
-                <EditText
-                    android:id="@+id/static_ip"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="请输入IP地址:"
-                    android:enabled="false"
-                    android:inputType="text"
-                    android:textSize="10pt" />
-
+                    android:text="是否使用静态IP地址"
+                    android:textSize="14pt" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:orientation="horizontal">-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="网关:"
-                    android:textColor="@color/black"
-                    android:textSize="10pt" />
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="IP地址:"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textSize="10pt" />-->
 
-                <EditText
-                    android:id="@+id/static_gateway"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="请输入网关:"
-                    android:enabled="false"
-                    android:inputType="text"
-                    android:textSize="10pt" />
-            </LinearLayout>
+            <!--<EditText-->
+            <!--android:id="@+id/static_ip"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:enabled="false"-->
+            <!--android:hint="请输入IP地址:"-->
+            <!--android:inputType="text"-->
+            <!--android:maxLength="15"-->
+            <!--android:textSize="10pt" />-->
 
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <!--</LinearLayout>-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="子网掩码:"
-                    android:textColor="@color/black"
-                    android:textSize="10pt" />
+            <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:orientation="horizontal">-->
 
-                <EditText
-                    android:id="@+id/static_mask"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="请输入子网掩码:"
-                    android:enabled="false"
-                    android:inputType="text"
-                    android:textSize="10pt" />
-            </LinearLayout>
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="网关:"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textSize="10pt" />-->
 
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <!--<EditText-->
+            <!--android:id="@+id/static_gateway"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:enabled="false"-->
+            <!--android:hint="请输入网关:"-->
+            <!--android:inputType="text"-->
+            <!--android:maxLength="15"-->
+            <!--android:textSize="10pt" />-->
+            <!--</LinearLayout>-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="DNS1:"
-                    android:textColor="@color/black"
-                    android:textSize="10pt" />
+            <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:orientation="horizontal">-->
 
-                <EditText
-                    android:id="@+id/static_DNS1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="请输入dns1:"
-                    android:enabled="false"
-                    android:inputType="text"
-                    android:textSize="10pt" />
-            </LinearLayout>
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="子网掩码:"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textSize="10pt" />-->
 
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <!--<EditText-->
+            <!--android:id="@+id/static_mask"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:enabled="false"-->
+            <!--android:hint="请输入子网掩码:"-->
+            <!--android:maxLength="15"-->
+            <!--android:inputType="text"-->
+            <!--android:textSize="10pt" />-->
+            <!--</LinearLayout>-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="DNS2:"
-                    android:textColor="@color/black"
-                    android:textSize="10pt" />
+            <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:orientation="horizontal">-->
 
-                <EditText
-                    android:id="@+id/static_DNS2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="请输入dns2:"
-                    android:enabled="false"
-                    android:inputType="text"
-                    android:textSize="10pt" />
-            </LinearLayout>
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="DNS1:"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textSize="10pt" />-->
+
+            <!--<EditText-->
+            <!--android:id="@+id/static_DNS1"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:enabled="false"-->
+            <!--android:maxLength="15"-->
+            <!--android:hint="请输入dns1:"-->
+            <!--android:inputType="text"-->
+            <!--android:textSize="10pt" />-->
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="DNS2:"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textSize="10pt" />-->
+
+            <!--<EditText-->
+            <!--android:id="@+id/static_DNS2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:enabled="false"-->
+            <!--android:maxLength="15"-->
+            <!--android:hint="请输入dns2:"-->
+            <!--android:inputType="text"-->
+            <!--android:textSize="10pt" />-->
+            <!--</LinearLayout>-->
+            <!---->
+
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content">
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="IP地址:"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+
+                    <EditText
+                        android:id="@+id/static_ip"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="请输入IP地址:"
+                        android:inputType="text"
+                        android:maxLength="15"
+                        android:textSize="10pt" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="网关:"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+
+                    <EditText
+                        android:id="@+id/static_gateway"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="请输入网关:"
+                        android:inputType="text"
+                        android:maxLength="15"
+                        android:textSize="10pt" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="子网掩码:"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+
+                    <EditText
+                        android:id="@+id/static_mask"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="请输入子网掩码:"
+                        android:inputType="text"
+                        android:maxLength="15"
+                        android:textSize="10pt" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DNS1:"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+
+                    <EditText
+                        android:id="@+id/static_DNS1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="请输入dns1:"
+                        android:inputType="text"
+                        android:maxLength="15"
+                        android:textSize="10pt" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DNS2:"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+
+                    <EditText
+                        android:id="@+id/static_DNS2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="请输入dns2:"
+                        android:inputType="text"
+                        android:maxLength="15"
+                        android:textSize="10pt" />
+                </TableRow>
+
+            </TableLayout>
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

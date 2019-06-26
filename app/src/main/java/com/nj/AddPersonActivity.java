@@ -2,31 +2,21 @@ package com.nj;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
-import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.BarUtils;
 
 import com.blankj.utilcode.util.SPUtils;
-import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
-import com.drv.card.CardInfo;
-import com.drv.card.CardInfoRk123x;
+import com.drv.card.ICardInfo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jakewharton.rxbinding2.view.RxView;
@@ -37,7 +27,7 @@ import com.nj.Function.Func_IDCard.mvp.presenter.IDCardPresenter;
 import com.nj.Function.Func_IDCard.mvp.view.IIDCardView;
 import com.nj.Retrofit.RetrofitGenerator;
 import com.nj.Tools.FileUtils;
-import com.nj.Tools.User;
+import com.nj.Bean.UserBean;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -59,8 +49,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
-import retrofit2.Retrofit;
-import retrofit2.http.Path;
 
 
 /**
@@ -80,7 +68,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView, IID
 
     boolean commitable;
 
-    User user;
+    UserBean user;
 
     String fp_id = "0";
 
@@ -120,7 +108,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView, IID
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                RetrofitGenerator.getFingerLogApi().fingerLog(config.getString("key"), jsonObject.toString())
+                RetrofitGenerator.getConnectApi().fingerLog(config.getString("key"), jsonObject.toString())
                         .subscribeOn(Schedulers.io())
                         .unsubscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -264,11 +252,17 @@ public class AddPersonActivity extends Activity implements IFingerPrintView, IID
         //fpp.FingerPrintPresenterSetView(null);
     }
 
+
     @Override
-    public void onsetCardInfo(final CardInfoRk123x cardInfo) {
+    public void onSetText(String Msg) {
+
+    }
+
+    @Override
+    public void onsetCardInfo(final ICardInfo cardInfo) {
         person_name.setText("人员姓名：" + cardInfo.name());
         person_id.setText("人员身份证：" + cardInfo.cardId());
-        RetrofitGenerator.getQueryPersonInfoApi().queryPersonInfo(config.getString("key"),cardInfo.cardId()/*"632700197011090582"*/)
+        RetrofitGenerator.getConnectApi().queryPersonInfo(config.getString("key"),cardInfo.cardId()/*"632700197011090582"*/)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -290,7 +284,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView, IID
                                     idp.stopReadCard();
                                     img_finger.setClickable(false);
                                     fpp.fpEnroll(fp_id);
-                                    user = new User();
+                                    user = new UserBean();
                                     user.setCardId(cardInfo.cardId());
                                     user.setName(cardInfo.name());
                                /*     user.setCardId("632700197011090582");
@@ -353,7 +347,7 @@ public class AddPersonActivity extends Activity implements IFingerPrintView, IID
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RetrofitGenerator.getOpenDoorRecordApi().openDoorRecord(config.getString("key"), jsonObject.toString())
+        RetrofitGenerator.getConnectApi().openDoorRecord(config.getString("key"), jsonObject.toString())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

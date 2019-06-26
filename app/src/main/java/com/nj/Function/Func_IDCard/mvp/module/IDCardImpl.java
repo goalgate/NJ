@@ -3,6 +3,7 @@ package com.nj.Function.Func_IDCard.mvp.module;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.drv.card.CardInfo;
 import com.drv.card.CardInfoRk123x;
 import com.drv.card.ICardState;
 import com.log.Lg;
@@ -15,7 +16,7 @@ import com.log.Lg;
 public class IDCardImpl implements IIDCard {
     private static final String TAG = "信息提示";
     private int cdevfd = -1;
-    private static CardInfoRk123x cardInfo = null;
+    private static CardInfo cardInfo = null;
     IIdCardListener mylistener;
 
 
@@ -24,7 +25,7 @@ public class IDCardImpl implements IIDCard {
         mylistener = listener;
         try {
             //cardInfo =new CardInfo("/dev/ttyAMA2",m_onCardState);
-            cardInfo = new CardInfoRk123x("/dev/ttyS1", m_onCardState);
+            cardInfo = new CardInfo("/dev/ttyS1", m_onCardState);
             cardInfo.setDevType("rk3368");
             cdevfd = cardInfo.open();
             if (cdevfd >= 0) {
@@ -72,5 +73,10 @@ public class IDCardImpl implements IIDCard {
     @Override
     public void onClose() {
         cardInfo.close();
+    }
+
+    @Override
+    public void onReadSAM() {
+        cardInfo.readSam();
     }
 }

@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.nj"
-        minSdkVersion 16
-        targetSdkVersion 19
+        minSdkVersion 19
+        targetSdkVersion 27
         versionCode 1
-        versionName "2.5"//2.3增加密码功能，尚未上传到服务器
+        versionName "2.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -23,38 +23,50 @@ android {
             jni.srcDirs = []
         }
     }
-    productFlavors {
-    }
+
+}
+
+greendao {
+    schemaVersion 1//数据库版本号
+    daoPackage 'com.nj.greendao'//设置DaoMaster、DaoSession、Dao包名
+    targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录
+    //targetGenDirTest：设置生成单元测试目录
+    //generateTests：设置自动生成单元测试用例
 }
 def retrofitVersion = '2.2.0'
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
-    compile files('libs/CVR.jar')
-    compile 'com.jakewharton:butterknife:8.6.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    implementation files('libs/CVR.jar')
+    implementation 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
-    compile 'io.reactivex.rxjava2:rxjava:2.0.8'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'com.blankj:utilcode:1.7.1'
-    compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
-    compile 'org.greenrobot:eventbus:3.0.0'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
-    compile "com.trello.rxlifecycle2:rxlifecycle:$retrofitVersion"
-    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    compile 'com.bigkoo:alertview:1.0.3'
-    compile 'cn.finalteam:okhttpfinal:2.0.7'
-    compile 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
-    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.0'
-    compile files('libs/BASE64.jar')
-    compile 'cn.yipianfengye.android:zxing-library:2.2'
-    compile files('libs/rkapi.jar')
+    implementation 'io.reactivex.rxjava2:rxjava:2.0.8'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'com.blankj:utilcode:1.7.1'
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation "com.trello.rxlifecycle2:rxlifecycle:$retrofitVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation 'com.bigkoo:alertview:1.0.3'
+    implementation 'cn.finalteam:okhttpfinal:2.0.7'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.0'
+    implementation files('libs/BASE64.jar')
+    implementation 'cn.yipianfengye.android:zxing-library:2.2'
+    implementation files('libs/rkapi1.jar')
+    implementation files('libs/rkapi2.jar')
+    implementation project(':facelibrary')
+    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'org.greenrobot:greendao-generator:3.2.2'
+    implementation 'net.zetetic:android-database-sqlcipher:3.5.2'
 }

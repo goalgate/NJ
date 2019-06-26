@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.view.SurfaceHolder;
 
 import com.nj.Function.Func_Camera.mvp.module.IPhotoModule;
-import com.nj.Function.Func_Camera.mvp.module.PhotoModuleImpl;
+import com.nj.Function.Func_Camera.mvp.module.PhotoModuleImpl2;
 import com.nj.Function.Func_Camera.mvp.view.IPhotoView;
 
 
@@ -74,7 +74,7 @@ public class PhotoPresenter {
         this.view = view;
     }
 
-    IPhotoModule photoModule = new PhotoModuleImpl();
+    IPhotoModule photoModule = new PhotoModuleImpl2();
 
     public void initCamera(){
         photoModule.initCamera();
@@ -105,6 +105,20 @@ public class PhotoPresenter {
 
     public void close_Camera(){
         photoModule.closeCamera();
+    }
+
+    public void screenshots() {
+        photoModule.getOneShut(new IPhotoModule.IOnSetListener() {
+            @Override
+            public void onBtnText(String msg) {
+                view.onCaremaText(msg);
+            }
+
+            @Override
+            public void onGetPhoto(Bitmap bmp) {
+                view.onGetPhoto(bmp);
+            }
+        });
     }
 
 }

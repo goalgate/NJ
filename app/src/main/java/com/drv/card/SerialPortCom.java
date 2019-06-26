@@ -25,7 +25,7 @@ import android_serialport_api.SerialPort;
 public abstract class SerialPortCom {
     private final int MAXLINES = 200;
     private String devType="rk3368";  //rk2268  t2  t3
-    private String devName_ = "/dev/ttyAMA2";    
+    private String devName_ = "/dev/ttyAMA2";
     private int speed_ = 115200;
     private int dataBits_ = 8;
     private int stopBits_ = 1;
@@ -185,7 +185,7 @@ public abstract class SerialPortCom {
                 Lg.v("SerialPortCom_open","open rk3368 SerialPort ok");
         		devfd=1;
         	}else
-        	{	
+        	{
                devfd = HardwareControler.openSerialPort(devName_, speed_, dataBits_, stopBits_);
                 if (devfd >= 0) {
                     Lg.v("SerialPortCom_open","open ys SerialPort ok");
@@ -196,6 +196,7 @@ public abstract class SerialPortCom {
         	}
 
         }catch(Exception e){
+            e.printStackTrace();
             Lg.e("SerialPortCom_open",e.toString());
             return -1;
         }

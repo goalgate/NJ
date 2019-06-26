@@ -2,8 +2,11 @@ package com.nj.Function.Func_IDCard.mvp.presenter;
 
 import android.graphics.Bitmap;
 
+import com.drv.card.CardInfo;
 import com.drv.card.CardInfoRk123x;
+import com.drv.card.ICardInfo;
 import com.nj.Function.Func_IDCard.mvp.module.IDCardImpl;
+import com.nj.Function.Func_IDCard.mvp.module.IDCardImpl2;
 import com.nj.Function.Func_IDCard.mvp.module.IIDCard;
 import com.nj.Function.Func_IDCard.mvp.view.IIDCardView;
 
@@ -30,7 +33,7 @@ public class IDCardPresenter {
         this.view = view;
     }
 
-    IIDCard idCardModule = new IDCardImpl();
+    IIDCard idCardModule = new IDCardImpl2();
 
     public void idCardOpen() {
         idCardModule.onOpen(new IIDCard.IIdCardListener() {
@@ -40,8 +43,13 @@ public class IDCardPresenter {
             }
 
             @Override
-            public void onSetInfo(CardInfoRk123x cardInfo) {
+            public void onSetInfo(ICardInfo cardInfo) {
                 view.onsetCardInfo(cardInfo);
+            }
+
+            @Override
+            public void onSetText(String Msg) {
+                view.onSetText(Msg);
             }
         });
     }
@@ -56,5 +64,9 @@ public class IDCardPresenter {
 
     public void idCardClose(){
         idCardModule.onClose();
+    }
+
+    public void readSam(){
+        idCardModule.onReadSAM();
     }
 }

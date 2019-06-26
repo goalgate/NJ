@@ -53,9 +53,12 @@ public class StartActivity extends Activity {
                 config.put("firstStart", false);
                 config.put("daid", dev_suffix.getText().toString());
                 config.put("key",DESX.encrypt(jsonKey.toString()));
-               // config.put("ServerId","https://zhwg.njga.gov.cn:8080/wiscrisrest/deviceDocking/");
-                config.put("ServerId","https://zhwg.njga.gov.cn:8080/andrest/deviceDocking/");
+                //config.put("ServerId","https://zhwg.njga.gov.cn:8080/wiscrisrest/deviceDocking/");
+                //config.put("ServerId","https://zhwg.njga.gov.cn:8080/andrest/deviceDocking/");
+                //config.put("ServerId","https://zhwg.njga.gov.cn:8080/andrest/deviceDocking/");
                 //config.put("ServerId","https://222.189.59.242:8445/andrest/deviceDocking/");
+//                config.put("ServerId","https://124.114.153.91:8444/wiscrisrest/deviceDocking/");
+                config.put("ServerId","https://124.114.153.91:8447/wiscrisrest/deviceDocking/");
                 ActivityUtils.startActivity(getPackageName(),getPackageName()+".IndexActivity");
                 copyFilesToSdCard();
                 StartActivity.this.finish();

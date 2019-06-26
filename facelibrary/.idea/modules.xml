@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Baidu_Face_Offline_SDK_Android_2.iml" filepath="$PROJECT_DIR$/../Baidu_Face_Offline_SDK_Android_2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../app/app.iml" filepath="$PROJECT_DIR$/../app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/facelibrary.iml" filepath="$PROJECT_DIR$/facelibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../iminect/iminect.iml" filepath="$PROJECT_DIR$/../iminect/iminect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../orbbec/orbbec.iml" filepath="$PROJECT_DIR$/../orbbec/orbbec.iml" />
+    </modules>
+  </component>
+</project>

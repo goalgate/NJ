@@ -367,5 +367,10 @@ public class PhotoModuleImpl implements IPhotoModule {
         }
 
     }
+
+    @Override
+    public void getOneShut(IOnSetListener listener) {
+
+    }
 }
 

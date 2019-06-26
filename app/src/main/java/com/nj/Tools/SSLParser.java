@@ -65,7 +65,7 @@ public final class SSLParser {
             NoSuchAlgorithmException, KeyStoreException, IOException, KeyManagementException {
         SSLParams sslParams = new SSLParams();
 
-        KeyStore ks = readBKSKeyStore(context, R.raw.nj0702);
+        KeyStore ks = readBKSKeyStore(context, R.raw.nj127);
         TrustManager[] trustManagers = prepareTrustManager(ks);
         X509TrustManager trustManager = chooseTrustManager(trustManagers);
 

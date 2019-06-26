@@ -58,9 +58,6 @@ public class SplashActivity extends RxActivity {
                                         }
                                     });
                         }else {
-                            if(SP_Config.getString("ServerId").equals("https://222.189.59.242:8445/wiscrisrest/deviceDocking/")){
-                                SP_Config.put("ServerId","https://222.189.59.242:8445/andrest/deviceDocking/");
-                            }
                             Observable.timer(3, TimeUnit.SECONDS)
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .compose(SplashActivity.this.<Long>bindUntilEvent(ActivityEvent.DESTROY))

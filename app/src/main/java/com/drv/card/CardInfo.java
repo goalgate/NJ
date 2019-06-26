@@ -16,10 +16,9 @@ import java.util.TimerTask;
 
 
 
-
 // android:sharedUserId="android.uid.system"
 //身份证读取类
-public class CardInfo extends SerialPortCom {
+public class CardInfo extends SerialPortCom implements ICardInfo{
     private final int t_name = 1;
     private final int t_sex = 2;
     private final int t_nation = 3;
@@ -33,6 +32,8 @@ public class CardInfo extends SerialPortCom {
     private final int info_false = 0;
     private final int info_true = 1;
     private final int info_no = 2;
+
+    private String sam_="";
 
     //姓名
     private String name_ = "";
@@ -65,12 +66,24 @@ public class CardInfo extends SerialPortCom {
     private int readType_=0;  //读卡类型
     private int readState_=0;  //返回状态
 
-   
+    private boolean isEnableNRead=true;  //启用去连读
+    private boolean  isNReadState=false; //连读状态
 
+    public boolean getEnableNRead() {
+        return isEnableNRead;
+    }
+
+    public void setEnableNRead(boolean enableNRead) {
+        isEnableNRead = enableNRead;
+    }
 
     //检测是否有设备
     private byte[] dt_check ={ 0x02, 0x00, 0x11, 0x03,(byte)0xAA, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, (byte)0xB9, 0x03 };
     private byte[] dt_check_ ={ 0x02, 0x00, 0x11, 0x03, 0x00, 0x01, 0x03, 0x01, 0x07, 0x01, 0x03, 0x01, 0x0F, 0x01, 0x03, 0x18, 0x03 };
+
+    //读取SAM编号
+    private byte[] dt_sam={(byte)0xAA,(byte)0xAA,(byte)0xAA,(byte)0x96,0x69,0x00,0x03,0x12,(byte)0xFF,(byte)0xEE};
+    private byte[] dt_sam_={(byte)0xAA,(byte)0xAA,(byte)0xAA,(byte)0x96,0x69,0x00};
 
     //检测是否有身份证
     private byte[] dt_isCer ={ (byte)0xAA,(byte)0xAA,(byte)0xAA,(byte)0x96, 0x69, 0x00, 0x03, 0x20, 0x01, 0x22 };
@@ -92,6 +105,7 @@ public class CardInfo extends SerialPortCom {
     private final int ct_isCer = 2;
     private final int ct_selectCer = 3;
     private final int ct_readCer = 4;
+    private final int ct_sam = 20;
     private Timer terCheck = new Timer(); //检测是否读完
 
 
@@ -188,7 +202,6 @@ public class CardInfo extends SerialPortCom {
                   {
                       fn.delete();
                   }
-
                   int len=picUnpack.Unpack(fp,wlt,bmpdata);
                   int i=len;
                   if(fn.exists()) {
@@ -275,6 +288,7 @@ public class CardInfo extends SerialPortCom {
     {
         try
         {
+            //Lg.e("sendData:"+ct+"_",Lg.byteToHexs(bs,bs.length));
             cmdType = ct;
             clear();
             write(bs);
@@ -363,7 +377,10 @@ public class CardInfo extends SerialPortCom {
         if (btr > 0)
         {
 
+
             System.arraycopy(buf,0,by,0,btr);        //依据串口数据长度BytesToRead来接收串口的数据并存放在by数组之中
+            //Lg.e("onRead:",Lg.byteToHexs(by,btr));
+
 
             if ((bufCount + btr) < 2048)
             {
@@ -383,6 +400,7 @@ public class CardInfo extends SerialPortCom {
     //数据处理
     public void toData(int bc)
     {
+
         try
         {
             if (cmdType == ct_check)
@@ -390,6 +408,7 @@ public class CardInfo extends SerialPortCom {
                 //02 00 11 03 00 01 03 01 07 01 03 01 0F 01 03 18 03
                 if (bc >= 17)
                 {
+
                     if (isData(buf_, dt_check_))
                     {
                         openState_ = true;
@@ -408,15 +427,27 @@ public class CardInfo extends SerialPortCom {
                 {
                     if (isData(buf_, dt_isCer_no))
                     {
+                        if(isEnableNRead){isNReadState=false;}
                         openState_ = true;
                         dataInfo(ct_isCer, info_false);
                         isReadCer_ = false;
 
+
                     }
                     else if (isData(buf_, dt_isCer_yes))
                     {
+
                         openState_ = true;
-                        dataInfo(ct_isCer, info_true);
+
+                        if(isEnableNRead){
+                            if(!isNReadState)
+                            {
+                                dataInfo(ct_isCer, info_true);
+                            }
+                        }else {
+                            dataInfo(ct_isCer, info_true);
+                        }
+                        if(isEnableNRead){isNReadState=true;}
                     }
                 }
             }
@@ -458,11 +489,104 @@ public class CardInfo extends SerialPortCom {
                     }
                     isCheck_ = false;
                 }
+            }else if (cmdType == ct_sam)
+            {
+                if(bc>=27)
+                {
+                    getSam_();
+                    dataInfo(ct_sam, info_true);
+                }
             }
         }
         catch(Exception ex) {
             Lg.e("CardInfo_toData",ex.toString());
         };
+    }
+
+    public String formatStr(String str, int len)
+    {
+        String s="";
+        if(str.length()==len)
+        {
+            s=str;
+        }
+        else if(str.length()<len)
+        {
+            for(int i=str.length();i<len;i++)
+            {
+                s='0'+s;
+            }
+            s=s+str;
+        }else if (str.length()>len)
+        {
+            s=str.substring(str.length()-len);
+
+        }
+
+        return s;
+
+
+    }
+
+    public  void readSam()
+    {
+         sendData(ct_sam,dt_sam);
+    }
+
+    public String byteToHex(byte b) {
+        String hex = Integer.toHexString(b & 0xFF);
+        if (hex.length() < 2) {
+            hex = "0" + hex;
+        }
+        return hex;
+    }
+
+    public String intToStr(byte[] bs, int pos, int len)
+    {
+        String s="";
+        if(bs.length<(pos+len))
+        {
+            return "";
+        }else
+        {
+            long ii=0;long ix=1;
+            try {
+                for (int i = pos; i < pos + len; i++) {
+                    ii += (bs[i]&0xff) * ix;
+                    ix *= 256;
+                }
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
+            s=""+ii;
+        }
+        return s;
+    }
+
+    private void getSam_()
+    {
+
+        sam_=formatStr(intToStr(buf_,10,1),2)+formatStr(intToStr(buf_,12,1),2)+"-"+intToStr(buf_,14,4)+
+                "-"+formatStr(intToStr(buf_,18,4),10)+"-"+formatStr(intToStr(buf_,22,4),10);
+        /*
+        String s="";
+        for(int i=0;i<27;i++)
+        {
+           if(i==0)
+           {
+               s=byteToHex(buf_[0]);
+           }else
+           {
+               s+=" "+byteToHex(buf_[i]);
+           }
+        }
+       sam_=s;
+       */
+    }
+
+    public String getSam()
+    {
+        return sam_;
     }
 
     private void readCerd()
